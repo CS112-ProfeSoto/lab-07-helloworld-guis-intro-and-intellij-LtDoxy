@@ -6,12 +6,16 @@ import javafx.scene.Scene;              //class for specific view in GUI window
 import javafx.scene.layout.VBox;        //class for layout pane, organized top-to-bottom
 import javafx.scene.control.Label;      //class for label component
 import javafx.scene.control.Button;     //class for button component
+import javafx.scene.control.TextField;  //class for text field component
 import javafx.event.EventHandler;       //interface for handling events
 import javafx.event.ActionEvent;        //class for type of event for action (like button or key pressed)
 
 public class HelloApplication extends Application implements EventHandler<ActionEvent>  { //inheriting core functionality + this class will handle events
     /*** GUI COMPONENTS ***/
     private Button button;
+    private Label message;
+    private int counter = 0;
+    private TextField textField;
 
     /*** DRIVER main ***/
     public static void main(String[] args) {
@@ -22,19 +26,21 @@ public class HelloApplication extends Application implements EventHandler<Action
     @Override
     public void start(Stage primaryStage) throws Exception{ //Application automatically calls this method to run (our) main javafx code. passes in primary stage (main window)
         //SETUP COMPONENTS
-        Label message = new Label("Hi, User!");
+        message = new Label("Hello #" + this.counter + ", User");
         button = new Button("Click me"); //or can set text using setText method separately
         button.setOnAction(this); //who the event handler is (which object/class should handle the event)
+        textField = new TextField("Type name here");
 
         //ADD COMPONENTS
         VBox layout = new VBox(); //simple layout, components are stacked on top of each other in added order
         layout.getChildren().add(message);
+        layout.getChildren().add(textField);
         layout.getChildren().add(button);
 
         //SETUP SCENE AND SHOW
         Scene scene = new Scene(layout, 300, 250); //layout, dimensions of window
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Hello World"); //setting title of main window
+        primaryStage.setTitle("Luke Howard"); //setting title of main window
         primaryStage.show();
     }
 
@@ -43,7 +49,10 @@ public class HelloApplication extends Application implements EventHandler<Action
     public void handle(ActionEvent actionEvent) { //generic method used to handle when events occur (like handle button click)
         //good practice to identify source, in case you have multiple event types/sources
         if(actionEvent.getSource() == button) {
-            System.out.println("Hello, JavaFX!");
+            System.out.println("Hello CS112");
+            this.counter++;
+            String name = textField.getText();
+            message.setText("Hello #" + this.counter + ", " + name);
         }
     }
 }
